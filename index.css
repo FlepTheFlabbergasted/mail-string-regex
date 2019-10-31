@@ -9,21 +9,6 @@ font-family: 'Raleway', sans-serif;
   box-sizing: border-box;
 }
 
-:root {
-  --border-size: 8px;
-  --box-width: 16px;
-  --box-height: 16px;
-
-  --animation-time: 0.3s; /* 0.3s*/
-  --animation-delay: 0.4s;
-  --animation-width: 300px;
-  --animation-height: calc(var(--animation-width) * 0.66);
-  --animation-border: 5px;
-
-  --background--color: white;
-  --hide-border-color: transparent;
-}
-
 html, body {
   width: 100%;
   height: 100%;
@@ -33,15 +18,46 @@ html, body {
   font-family: 'Fira Sans', sans-serif;
 }
 
-#container {
-  width: 60%;
-  height: 60%;
-  padding: 0;
-  margin: 0;
+#main-container {
+  width: 100%;
+  height: 70%;
 
   display: flex;
-  align-content: center;
-  align-self: center;
-  justify-content: center;
-  flex-flow: row;
+  flex-direction: column;
+  align-items: center;
+
+  /*border: 1px solid red;*/
+}
+
+#top-container {
+  width: 50%;
+  height: 50%;
+  margin: 1%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  /*border: 1px solid blue;*/
+}
+
+#submit {
+  max-width: 12%;
+}
+
+#bottom-container {
+  width: 50%;
+  height: 50%;
+  margin: 1%;  
+
+  display: flex;
+  flex-direction: column;
+
+  /*border: 1px solid green;*/
+}
+
+.input-field {
+  width: 100%;
+  height: 100%;
+  padding: 1%;
 }

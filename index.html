@@ -5,15 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Mail Tieto Regex</title>
 
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
   <link rel="stylesheet" type="text/css" href="index.css">
   <script type="text/javascript" src="index.js"></script>
 
 </head>
 <body>
-  <div id="container">
-    <textarea id="mail-list" placeholder="Paste mail list here..."></textarea>
-    <button id="submit">Submit</button>
-    <textarea id="result" placeholder="Result here..."></textarea>
+  <div id="main-container">
+    <div id="top-container">
+      <textarea class="input-field" id="mail-list" placeholder="Paste mail list here..."></textarea>
+      <button id="submit">Submit</button>
+      <!-- <input type="checkbox" value="1" name="sommarfest" /></>
+      <input type="checkbox" value="1" name="höstfest" />Sloth</>
+      <input type="checkbox" value="1" name="julfest" />Cheetah</> -->
+    </div>
+
+    <div id="bottom-container">
+      <textarea class="input-field" id="result" placeholder="Result here..."></textarea>
+    </div>
   </div>
 </body>
 </html>
