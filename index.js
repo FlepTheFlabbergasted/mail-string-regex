@@ -2,6 +2,16 @@ window.onload = function() {
     console.log('hi');
 
     document.getElementById('submit').onclick = function regexStuff(event) {
+
+        /*
+        Stuff I didn't use:
+        
+        // Remove all ext mail adresses, this leaves all non-ext mails and all names
+        .\(*EXT\).<ext.*?>;
+
+        <(.*?)\>.; // Select all mail adresses including the "<>" and finishing ';'
+        */
+
         // Select everything between the "; <"
         let selectBetweenRegex = /;.*?</g
          // Replace with this to only keep the mails including the "<>" and finishing ';'
