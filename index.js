@@ -1,34 +1,37 @@
 window.onload = function() {
-    console.log('hi');
+    console.log('Hello there');
 
     document.getElementById('submit').onclick = function regexStuff(event) {
 
-        /*
-        Stuff I didn't use:
-        
-        // Remove all ext mail adresses, this leaves all non-ext mails and all names
-        .\(*EXT\).<ext.*?>;
-
-        <(.*?)\>.; // Select all mail adresses including the "<>" and finishing ';'
+        /* Test:
+            sdf sdf (EXT) <ext.sdf@sdf.com>; sdfsdf trt <sdpf@sdf.com>; pojk pojok (EXT) <ext.sdf@sf.com>; uhiuh iuhhi 
+            <sdf.ewr@sdf.com>; pojk pojok (EXT) <ext.sdf@sf.com>; pojk pojok (EXT) <ext.sdf@sf.com>; uhiuh iuhhi <sdf.ewr@sdf.com>;
         */
 
-        // Select everything between the "; <"
-        let selectBetweenRegex = /;.*?</g
-         // Replace with this to only keep the mails including the "<>" and finishing ';'
-        let replaceBetweenString = "; <"
-
-        // Select all ext mail adresses
-        let selectExtMailRegex = /<ext.*?>; /g
-                                        // ^ SPACE
-
+        // Once the page is loaded get the elements
         let textArea = document.getElementById('mail-list');
         let resultTextArea = document.getElementById('result');
         // console.log("textarea: " + textArea.value);
 
-        let first = textArea.value.replace(selectBetweenRegex, replaceBetweenString);
-        let final = first.replace(selectExtMailRegex, "");
+        // The regex used and the resulting string
+        let selectAllMailRegex = /(<.*?>; )/g;
+        let selectAllExtMailRegex = /(<ext.*?>; )/g;
+        let resultString;
 
-        resultTextArea.value = final;
+        // Check the checkboxes telling us if we should remove all ext mailaddresses or remove all non-ext addresses
+        // Default is to remove all ext
+        if (document.getElementById("checkbox-remove-ext").checked) {
+            let allMail = textArea.value.match(selectAllMailRegex).join('');
+            let allMailWithoutExt = allMail.replace(selectAllExtMailRegex, '');
+            // console.log("allMailWithoutExt: " + allMailWithoutExt);
+            resultString = allMailWithoutExt;
+        } else {
+            let allExtMail = textArea.value.match(selectAllExtMailRegex).join('');
+            // console.log("allExtMail: " + allExtMail);
+            resultString = allExtMail;
+        }
+
+        resultTextArea.value = resultString;
     }
 
     // https://stackoverflow.com/questions/9709209/html-select-only-one-checkbox-in-a-group
