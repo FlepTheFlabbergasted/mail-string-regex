@@ -4,8 +4,13 @@ window.onload = function() {
     document.getElementById('submit').onclick = function regexStuff(event) {
 
         /* Test:
-            sdf sdf (EXT) <ext.sdf@sdf.com>; sdfsdf trt <sdpf@sdf.com>; pojk pojok (EXT) <ext.sdf@sf.com>; uhiuh iuhhi 
-            <sdf.ewr@sdf.com>; pojk pojok (EXT) <ext.sdf@sf.com>; pojk pojok (EXT) <ext.sdf@sf.com>; uhiuh iuhhi <sdf.ewr@sdf.com>;
+            sdf sdf (EXT) <ext1.sdf@sdf.com>;
+            sdfsdf trt <NOTEXT1@sdf.com>;
+            pojk pojok (EXT) <ext2.sdf@sf.com>;
+            uhiuh iuhhi <NOTEXT2.ewr@sdf.com>;
+            pojk pojok (EXT) <ext3.sdf@sf.com>;
+            pojk pojok (EXT) <ext4.sdf@sf.com>;
+            uhiuh iuhhi <NOTEXT3.ewr@sdf.com>;
         */
 
         // Once the page is loaded get the elements
@@ -14,21 +19,22 @@ window.onload = function() {
         // console.log("textarea: " + textArea.value);
 
         // The regex used and the resulting string
-        let selectAllMailRegex = /(<.*?>; )/g;
-        let selectAllExtMailRegex = /(<ext.*?>; )/g;
+        let selectAllMailRegex = /(<.*?>;)/g;
+        let selectAllExtMailRegex = /(<ext.*?>;)/g;
         let resultString;
 
         // Check the checkboxes telling us if we should remove all ext mailaddresses or remove all non-ext addresses
         // Default is to remove all ext
-        if (document.getElementById("checkbox-remove-ext").checked) {
-            let allMail = textArea.value.match(selectAllMailRegex).join('');
-            let allMailWithoutExt = allMail.replace(selectAllExtMailRegex, '');
-            // console.log("allMailWithoutExt: " + allMailWithoutExt);
-            resultString = allMailWithoutExt;
-        } else {
-            let allExtMail = textArea.value.match(selectAllExtMailRegex).join('');
+        if (document.getElementById("checkbox-keep-ext").checked) {
+            let allExtMail = textArea.value.match(selectAllExtMailRegex).join(' ');
             // console.log("allExtMail: " + allExtMail);
             resultString = allExtMail;
+        } else {
+            let allMail = textArea.value.match(selectAllMailRegex).join(' ');
+            let allMailWithoutExt = allMail.replace(selectAllExtMailRegex, '');
+            let allMailWithoutExtNoDoubleSpace = allMailWithoutExt.replace(/ +(?= )/g,'');
+            // console.log("allMailWithoutExt: " + allMailWithoutExt);
+            resultString = allMailWithoutExtNoDoubleSpace;
         }
 
         resultTextArea.value = resultString;
