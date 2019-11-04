@@ -19,22 +19,23 @@ window.onload = function() {
         // console.log("textarea: " + textArea.value);
 
         // The regex used and the resulting string
-        let selectAllMailRegex = /(<.*?>;)/g;
-        let selectAllExtMailRegex = /(<ext.*?>;)/g;
+        let selectAllMailRegex = /(<.*?>)/g;
+        let selectAllExtMailRegex = /(<ext.*?>)/g;
         let resultString;
 
         // Check the checkboxes telling us if we should remove all ext mailaddresses or remove all non-ext addresses
         // Default is to remove all ext
         if (document.getElementById("checkbox-keep-ext").checked) {
-            let allExtMail = textArea.value.match(selectAllExtMailRegex).join(' ');
+            let allExtMail = textArea.value.match(selectAllExtMailRegex).join('; ');
             // console.log("allExtMail: " + allExtMail);
             resultString = allExtMail;
         } else {
             let allMail = textArea.value.match(selectAllMailRegex).join(' ');
             let allMailWithoutExt = allMail.replace(selectAllExtMailRegex, '');
             let allMailWithoutExtNoDoubleSpace = allMailWithoutExt.replace(/ +(?= )/g,'');
+            let noExtNoDoubleSpaceSemicolon = allMailWithoutExtNoDoubleSpace.replace(/>/g,'>;');
             // console.log("allMailWithoutExt: " + allMailWithoutExt);
-            resultString = allMailWithoutExtNoDoubleSpace;
+            resultString = noExtNoDoubleSpaceSemicolon;
         }
 
         resultTextArea.value = resultString;
