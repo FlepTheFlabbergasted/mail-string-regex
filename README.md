@@ -1,2 +1,2 @@
 ## GitHub Pages Link
-https://pidlik.github.io/mail-regex-tieto/
+https://pidlik.github.io/mail-string-regex/
