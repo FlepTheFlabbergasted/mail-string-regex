@@ -12,18 +12,32 @@
 
 </head>
 <body>
-  <div id="main-container">
-    <div id="top-container">
-      <textarea class="input-field" id="mail-list" placeholder="Paste mail list here..."></textarea>
-      <div id="control-container">
-        <button id="submit">Submit</button>
-        <input type="checkbox" checked="true" id="checkbox-remove-ext" value="1" name="remove-ext" />Remove Ext</>
-        <input type="checkbox" id="checkbox-keep-ext" value="1" name="keep-ext" />Keep Ext</>
+  <div class="main-container">
+    <div class="stacked-container">
+      <div class="left-container">
+        <textarea class="input-field" id="pasted-mail-list" placeholder="Paste mail list here..."></textarea>
+        <div class="control-container">
+          <button id="submit">Submit</button>
+          <input type="checkbox" checked="true" id="checkbox-remove-ext" value="1" name="remove-ext" />Remove Ext</>
+          <input type="checkbox" id="checkbox-keep-ext" value="1" name="keep-ext" />Keep Ext</>
+        </div>
+      </div>
+      <div class="right-container">
+        <div class="nr-display">
+          <h1 id="nr-pasted-mail-addresses">0</h3>
+        </div>
       </div>
     </div>
 
-    <div id="bottom-container">
-      <textarea class="input-field" id="result" placeholder="Result here..."></textarea>
+    <div class="stacked-container">
+      <div class="left-container">
+        <textarea class="input-field" id="result" placeholder="Result here..."></textarea>
+      </div>
+      <div class="right-container">
+        <div class="nr-display">
+          <h1 id="nr-output-mail-addresses">0</h3>
+        </div>
+      </div>
     </div>
   </div>
 </body>

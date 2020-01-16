@@ -1,42 +1,80 @@
+// The regex used
+const SELECT_ALL_MAIL_REGEX = /(<.*?>)/g;
+const SELECT_ALL_EXT_MAIL_REGEX = /(<ext.*?>)/g;
+const MAIL_ADDRESS_DENOMINATOR = '; ';
+
 window.onload = function() {
     console.log('Hello there');
 
+    // Debug for inital textarea value (it is 1 for some reason)
+    // let textArea = document.getElementById('pasted-mail-list');
+    // let resultTextArea = document.getElementById('result');
+    // let tex = textArea.value.split(';').length;
+    // let res = resultTextArea.value.split(';').length;
+    // document.getElementById('nr-pasted-mail-addresses').innerHTML = tex;
+    // document.getElementById('nr-output-mail-addresses').innerHTML = res;
+
+    document.getElementById('pasted-mail-list').oninput = function getNrOfPastedMailAddresses(event) {
+        let textArea = document.getElementById('pasted-mail-list');
+
+        // TODO: You're doing this two times...
+        let allExtMail = textArea.value.match(SELECT_ALL_EXT_MAIL_REGEX).join(MAIL_ADDRESS_DENOMINATOR);
+        let nrOfExtMailAddresses = allExtMail.split(MAIL_ADDRESS_DENOMINATOR).length;
+
+        // TODO: You're doing this two times...
+        let allMail = textArea.value.match(SELECT_ALL_MAIL_REGEX).join(' ');
+        let allMailWithoutExt = allMail.replace(SELECT_ALL_EXT_MAIL_REGEX, '');
+        let allMailWithoutExtNoDoubleSpace = allMailWithoutExt.replace(/ +(?= )/g,'');
+        let noExtNoDoubleSpaceSemicolon = allMailWithoutExtNoDoubleSpace.replace(/>/g,'>;');
+        let nrOfMailAddresses = noExtNoDoubleSpaceSemicolon.split(MAIL_ADDRESS_DENOMINATOR).length;
+
+        document.getElementById('nr-pasted-mail-addresses').innerHTML = nrOfExtMailAddresses + nrOfMailAddresses;
+        console.log("Total number of pasted mailaddresses: " + (nrOfExtMailAddresses + nrOfMailAddresses));
+    }
+
     document.getElementById('submit').onclick = function regexStuff(event) {
 
-        /* Test:
-            sdf sdf (EXT) <ext1.sdf@sdf.com>;
-            sdfsdf trt <NOTEXT1@sdf.com>;
-            pojk pojok (EXT) <ext2.sdf@sf.com>;
-            uhiuh iuhhi <NOTEXT2.ewr@sdf.com>;
-            pojk pojok (EXT) <ext3.sdf@sf.com>;
-            pojk pojok (EXT) <ext4.sdf@sf.com>;
-            uhiuh iuhhi <NOTEXT3.ewr@sdf.com>;
-        */
+/* Test:
+sdf sdf (EXT) <ext1.sdf@sdf.com>;
+sdfsdf trt <NOTEXT1@sdf.com>;
+pojk pojok (EXT) <ext2.sdf@sf.com>;
+uhiuh iuhhi <NOTEXT2.ewr@sdf.com>;
+pojk pojok (EXT) <ext3.sdf@sf.com>;
+pojk pojok (EXT) <ext4.sdf@sf.com>;
+uhiuh iuhhi <NOTEXT3.ewr@sdf.com>;
+*/
 
         // Once the page is loaded get the elements
-        let textArea = document.getElementById('mail-list');
+        let textArea = document.getElementById('pasted-mail-list');
         let resultTextArea = document.getElementById('result');
-        // console.log("textarea: " + textArea.value);
+        let nrOutputMailAdressesTextObj = document.getElementById('nr-output-mail-addresses');
 
-        // The regex used and the resulting string
-        let selectAllMailRegex = /(<.*?>)/g;
-        let selectAllExtMailRegex = /(<ext.*?>)/g;
+        // Output string
         let resultString;
 
         // Check the checkboxes telling us if we should remove all ext mailaddresses or remove all non-ext addresses
         // Default is to remove all ext
         if (document.getElementById("checkbox-keep-ext").checked) {
-            let allExtMail = textArea.value.match(selectAllExtMailRegex).join('; ');
-            // console.log("allExtMail: " + allExtMail);
+            let allExtMail = textArea.value.match(SELECT_ALL_EXT_MAIL_REGEX).join(MAIL_ADDRESS_DENOMINATOR);
+
+            let nrOfExtMailAddresses = allExtMail.split(MAIL_ADDRESS_DENOMINATOR).length;
+            nrOutputMailAdressesTextObj.innerHTML = nrOfExtMailAddresses;
+            console.log("Number of ext mailaddresses: " + nrOfExtMailAddresses);
+
             resultString = allExtMail;
         } else {
-            let allMail = textArea.value.match(selectAllMailRegex).join(' ');
-            let allMailWithoutExt = allMail.replace(selectAllExtMailRegex, '');
+            let allMail = textArea.value.match(SELECT_ALL_MAIL_REGEX).join(' ');
+            let allMailWithoutExt = allMail.replace(SELECT_ALL_EXT_MAIL_REGEX, '');
             let allMailWithoutExtNoDoubleSpace = allMailWithoutExt.replace(/ +(?= )/g,'');
             let noExtNoDoubleSpaceSemicolon = allMailWithoutExtNoDoubleSpace.replace(/>/g,'>;');
-            // console.log("allMailWithoutExt: " + allMailWithoutExt);
+
+            let nrOfMailAddresses = noExtNoDoubleSpaceSemicolon.split(MAIL_ADDRESS_DENOMINATOR).length;
+            nrOutputMailAdressesTextObj.innerHTML = nrOfMailAddresses;
+            console.log("Number of mailaddresses: " + nrOfMailAddresses);
+
             resultString = noExtNoDoubleSpaceSemicolon;
         }
+
 
         resultTextArea.value = resultString;
     }
