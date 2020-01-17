@@ -18,18 +18,18 @@ window.onload = function() {
         let textArea = document.getElementById('pasted-mail-list');
 
         // TODO: You're doing this two times...
-        let allExtMail = textArea.value.match(SELECT_ALL_EXT_MAIL_REGEX).join(MAIL_ADDRESS_DENOMINATOR);
-        let nrOfExtMailAddresses = allExtMail.split(MAIL_ADDRESS_DENOMINATOR).length;
-
-        // TODO: You're doing this two times...
         let allMail = textArea.value.match(SELECT_ALL_MAIL_REGEX).join(' ');
         let allMailWithoutExt = allMail.replace(SELECT_ALL_EXT_MAIL_REGEX, '');
         let allMailWithoutExtNoDoubleSpace = allMailWithoutExt.replace(/ +(?= )/g,'');
         let noExtNoDoubleSpaceSemicolon = allMailWithoutExtNoDoubleSpace.replace(/>/g,'>;');
         let nrOfMailAddresses = noExtNoDoubleSpaceSemicolon.split(MAIL_ADDRESS_DENOMINATOR).length;
 
-        document.getElementById('nr-pasted-mail-addresses').innerHTML = nrOfExtMailAddresses + nrOfMailAddresses;
-        console.log("Total number of pasted mailaddresses: " + (nrOfExtMailAddresses + nrOfMailAddresses));
+        // TODO: You're doing this two times...
+        let allExtMail = textArea.value.match(SELECT_ALL_EXT_MAIL_REGEX).join(MAIL_ADDRESS_DENOMINATOR);
+        let nrOfExtMailAddresses = allExtMail.split(MAIL_ADDRESS_DENOMINATOR).length;
+
+        document.getElementById('nr-pasted-mail-addresses').innerHTML = nrOfMailAddresses.length + nrOfExtMailAddresses.length;
+        console.log("Total number of pasted mailaddresses: " + (nrOfMailAddresses.length + nrOfExtMailAddresses.length));
     }
 
     document.getElementById('submit').onclick = function regexStuff(event) {
@@ -55,7 +55,12 @@ uhiuh iuhhi <NOTEXT3.ewr@sdf.com>;
         // Check the checkboxes telling us if we should remove all ext mailaddresses or remove all non-ext addresses
         // Default is to remove all ext
         if (document.getElementById("checkbox-keep-ext").checked) {
-            let allExtMail = textArea.value.match(SELECT_ALL_EXT_MAIL_REGEX).join(MAIL_ADDRESS_DENOMINATOR);
+            let matchedText = textArea.value.match(SELECT_ALL_EXT_MAIL_REGEX);
+            if(matchedText === null || matchedText === undefined) {
+                return;
+            }
+
+            let allExtMail = matchedText.join(MAIL_ADDRESS_DENOMINATOR);
 
             let nrOfExtMailAddresses = allExtMail.split(MAIL_ADDRESS_DENOMINATOR).length;
             nrOutputMailAdressesTextObj.innerHTML = nrOfExtMailAddresses;
@@ -63,7 +68,12 @@ uhiuh iuhhi <NOTEXT3.ewr@sdf.com>;
 
             resultString = allExtMail;
         } else {
-            let allMail = textArea.value.match(SELECT_ALL_MAIL_REGEX).join(' ');
+            let matchedText = textArea.value.match(SELECT_ALL_MAIL_REGEX);
+            if(matchedText === null || matchedText === undefined) {
+                return;
+            }
+
+            let allMail = matchedText.join(' ');
             let allMailWithoutExt = allMail.replace(SELECT_ALL_EXT_MAIL_REGEX, '');
             let allMailWithoutExtNoDoubleSpace = allMailWithoutExt.replace(/ +(?= )/g,'');
             let noExtNoDoubleSpaceSemicolon = allMailWithoutExtNoDoubleSpace.replace(/>/g,'>;');
